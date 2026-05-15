@@ -2,6 +2,6 @@ User-agent: *
 Allow: /
 
 # TaxPilot — Free US Tax Help
-# https://taxpilot.vercel.app
+# https://taxpilot-pi.vercel.app
 
-Sitemap: https://taxpilot.vercel.app/sitemap.xml
+Sitemap: https://taxpilot-pi.vercel.app/sitemap.xml
