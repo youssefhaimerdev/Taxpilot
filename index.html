@@ -1890,11 +1890,14 @@ function calcHome(){
 }
 
 
+const SECTION_MAP={ind:'individual',st:'startup',co:'corporate'};
 function switchTab(section,tab){
-  const sectionEl=document.getElementById(section);
+  const sectionId=SECTION_MAP[section]||section;
+  const sectionEl=document.getElementById(sectionId);
+  if(!sectionEl) return;
   sectionEl.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
   sectionEl.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  const targetPane=document.getElementById(`${section}-${tab}`);
+  const targetPane=document.getElementById(section+'-'+tab);
   if(targetPane) targetPane.classList.add('active');
   if(event&&event.target) event.target.classList.add('active');
 }
