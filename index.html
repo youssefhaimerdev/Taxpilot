@@ -62,33 +62,132 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;display:flex;ali
 .mobile-menu a{color:var(--text);text-decoration:none;font-size:15px;padding:12px 0;border-bottom:1px solid var(--border);}
 .mobile-menu a:last-child{border-bottom:none;}
 
-/* HERO */
-.hero{min-height:100vh;padding:100px 28px 80px;display:flex;align-items:center;position:relative;overflow:hidden;}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 15% 50%,rgba(0,212,160,.06) 0,transparent 60%),radial-gradient(ellipse 50% 40% at 85% 20%,rgba(240,172,69,.05) 0,transparent 50%),radial-gradient(ellipse 60% 50% at 50% 90%,rgba(0,80,180,.05) 0,transparent 50%);}
-.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(0,212,160,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,160,.025) 1px,transparent 1px);background-size:56px 56px;}
-.hero-content{position:relative;max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1.1fr 0.9fr;gap:64px;align-items:center;}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:var(--gd);border:1px solid rgba(0,212,160,.22);border-radius:100px;font-size:13px;color:var(--green);margin-bottom:22px;font-weight:600;}
-.hero h1{font-size:clamp(44px,5.5vw,78px);font-weight:700;line-height:1.04;margin-bottom:22px;}
-.hero h1 em{color:var(--green);font-style:normal;display:block;}
-.hero .lead{font-size:17px;color:var(--muted);line-height:1.75;margin-bottom:36px;max-width:460px;}
-.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:44px;}
-.trust-pills{display:flex;flex-wrap:wrap;gap:10px;}
-.trust-pill{display:flex;align-items:center;gap:7px;padding:6px 12px;background:var(--card);border:1px solid var(--border);border-radius:100px;font-size:12px;color:var(--muted);}
-.trust-pill span{color:var(--green);font-size:13px;}
+/* ═══════════════ HERO — DYNAMIC REDESIGN ═══════════════ */
+.hero{min-height:100vh;padding:0;display:flex;flex-direction:column;position:relative;overflow:hidden;background:#05101E;}
 
-/* HERO CARD CLUSTER */
+/* Particle canvas sits behind everything */
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+
+/* Aurora blobs */
+.aurora{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
+.aurora-blob{position:absolute;border-radius:50%;filter:blur(80px);animation:blobDrift 12s ease-in-out infinite alternate;}
+.aurora-blob:nth-child(1){width:600px;height:600px;left:-100px;top:-100px;background:radial-gradient(circle,rgba(0,212,160,.09) 0%,transparent 70%);animation-duration:14s;}
+.aurora-blob:nth-child(2){width:500px;height:500px;right:-80px;top:10%;background:radial-gradient(circle,rgba(240,172,69,.06) 0%,transparent 70%);animation-duration:10s;animation-delay:-4s;}
+.aurora-blob:nth-child(3){width:400px;height:400px;left:30%;bottom:-80px;background:radial-gradient(circle,rgba(100,140,255,.07) 0%,transparent 70%);animation-duration:16s;animation-delay:-8s;}
+@keyframes blobDrift{0%{transform:translate(0,0) scale(1);}50%{transform:translate(30px,-20px) scale(1.05);}100%{transform:translate(-20px,30px) scale(.97);}}
+
+/* Animated dot grid */
+.hero-grid-bg{position:absolute;inset:0;z-index:1;
+  background-image:radial-gradient(circle,rgba(0,212,160,.18) 1px,transparent 1px);
+  background-size:44px 44px;
+  animation:gridPulse 8s ease-in-out infinite alternate;}
+@keyframes gridPulse{0%{opacity:.4;}100%{opacity:.9;}}
+
+/* TICKER BAR */
+.ticker-bar{position:relative;z-index:3;background:rgba(0,212,160,.06);border-bottom:1px solid rgba(0,212,160,.15);padding:0;height:36px;overflow:hidden;display:flex;align-items:center;}
+.ticker-inner{display:flex;align-items:center;gap:0;white-space:nowrap;animation:tickerScroll 30s linear infinite;}
+.ticker-item{display:inline-flex;align-items:center;gap:8px;padding:0 28px;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);border-right:1px solid rgba(255,255,255,.06);}
+.ticker-item .t-label{color:var(--dim);}
+.ticker-item .t-val{color:var(--green);font-weight:700;}
+.ticker-item .t-val.gold{color:var(--gold);}
+.ticker-item .t-val.red{color:var(--red);}
+.ticker-sep{color:var(--dim);padding:0 4px;}
+@keyframes tickerScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* HERO BODY */
+.hero-body{position:relative;z-index:2;flex:1;display:flex;align-items:center;padding:72px 28px 60px;}
+.hero-content{max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1.1fr 0.9fr;gap:72px;align-items:center;}
+
+/* LEFT */
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;padding:7px 16px;background:rgba(0,212,160,.08);border:1px solid rgba(0,212,160,.2);border-radius:100px;font-size:12px;color:var(--green);margin-bottom:28px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;}
+.hero-eyebrow-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+
+.hero h1{font-size:clamp(42px,5.2vw,74px);font-weight:700;line-height:1.06;margin-bottom:10px;letter-spacing:-.5px;}
+.hero h1 .line-static{color:var(--text);}
+.hero h1 .line-type{color:var(--green);display:block;min-height:1.1em;position:relative;}
+.cursor-blink{display:inline-block;width:3px;height:.85em;background:var(--green);margin-left:4px;vertical-align:middle;animation:blink .8s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
+.hero-sub{font-size:17px;color:var(--muted);line-height:1.78;margin-bottom:36px;max-width:480px;margin-top:18px;}
+
+.hero-ctas{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:40px;}
+.btn-hero-primary{display:inline-flex;align-items:center;gap:10px;padding:15px 32px;background:var(--green);color:#040E1A;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;transition:all .25s;position:relative;overflow:hidden;}
+.btn-hero-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);opacity:0;transition:opacity .2s;}
+.btn-hero-primary:hover::before{opacity:1;}
+.btn-hero-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,212,160,.4);}
+.btn-hero-primary .btn-arrow{transition:transform .2s;}
+.btn-hero-primary:hover .btn-arrow{transform:translateX(4px);}
+.btn-hero-ghost{display:inline-flex;align-items:center;gap:8px;padding:15px 28px;background:rgba(255,255,255,.04);color:var(--text);border:1px solid rgba(255,255,255,.12);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .25s;backdrop-filter:blur(8px);}
+.btn-hero-ghost:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);transform:translateY(-2px);}
+
+/* TRUST STRIP */
+.trust-strip{display:flex;flex-wrap:wrap;gap:8px;}
+.trust-chip{display:flex;align-items:center;gap:7px;padding:7px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:8px;font-size:12px;color:var(--muted);backdrop-filter:blur(4px);transition:all .2s;}
+.trust-chip:hover{border-color:rgba(0,212,160,.25);color:var(--text);}
+.trust-chip-icon{font-size:14px;}
+
+/* RIGHT — STAT CARDS */
 .hero-right{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.hcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:22px;position:relative;overflow:hidden;transition:all .3s;}
-.hcard:hover{border-color:var(--ba);transform:translateY(-3px);}
-.hcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),transparent);}
-.hcard:nth-child(2)::before{background:linear-gradient(90deg,var(--gold),transparent);}
-.hcard:nth-child(3)::before{background:linear-gradient(90deg,#7C9FFF,transparent);}
-.hcard:nth-child(4)::before{background:linear-gradient(90deg,var(--red),transparent);}
-.hcard-val{font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:var(--green);margin-bottom:5px;}
+.hcard{background:rgba(14,31,51,.7);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:24px 20px;position:relative;overflow:hidden;transition:all .35s;cursor:default;backdrop-filter:blur(12px);}
+.hcard:hover{transform:translateY(-5px) scale(1.02);border-color:rgba(0,212,160,.3);box-shadow:0 20px 60px rgba(0,0,0,.4),0 0 0 1px rgba(0,212,160,.1);}
+
+/* Glow sweep animation on hover */
+.hcard::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,212,160,.06) 0%,transparent 60%);opacity:0;transition:opacity .3s;}
+.hcard:hover::after{opacity:1;}
+
+/* Top accent bar with animation */
+.hcard::before{content:'';position:absolute;top:0;left:-100%;right:0;height:2px;transition:left .4s ease;}
+.hcard:hover::before{left:0;}
+.hcard:nth-child(1)::before{background:linear-gradient(90deg,var(--green),rgba(0,212,160,.3));}
+.hcard:nth-child(2)::before{background:linear-gradient(90deg,var(--gold),rgba(240,172,69,.3));}
+.hcard:nth-child(3)::before{background:linear-gradient(90deg,#7C9FFF,rgba(124,159,255,.3));}
+.hcard:nth-child(4)::before{background:linear-gradient(90deg,var(--red),rgba(255,92,108,.3));}
+
+/* Card icon */
+.hcard-icon{font-size:22px;margin-bottom:12px;display:block;opacity:.8;}
+
+.hcard-val{font-family:'Space Mono',monospace;font-size:28px;font-weight:700;margin-bottom:6px;line-height:1;}
+.hcard:nth-child(1) .hcard-val{color:var(--green);}
 .hcard:nth-child(2) .hcard-val{color:var(--gold);}
 .hcard:nth-child(3) .hcard-val{color:#7C9FFF;}
 .hcard:nth-child(4) .hcard-val{color:var(--red);}
-.hcard-label{font-size:12px;color:var(--muted);line-height:1.4;}
+.hcard-label{font-size:12px;color:var(--muted);line-height:1.5;}
+
+/* Card entrance stagger */
+.hcard:nth-child(1){animation:cardIn .6s .3s both;}
+.hcard:nth-child(2){animation:cardIn .6s .45s both;}
+.hcard:nth-child(3){animation:cardIn .6s .6s both;}
+.hcard:nth-child(4){animation:cardIn .6s .75s both;}
+@keyframes cardIn{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+/* Left content entrance */
+.hero-eyebrow{animation:fadeSlideUp .6s .1s both;}
+.hero h1{animation:fadeSlideUp .6s .2s both;}
+.hero-sub{animation:fadeSlideUp .6s .35s both;}
+.hero-ctas{animation:fadeSlideUp .6s .45s both;}
+.trust-strip{animation:fadeSlideUp .6s .55s both;}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* SCROLL INDICATOR */
+.scroll-cue{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:.4;animation:scrollCueFade 3s 2s both;}
+@keyframes scrollCueFade{0%{opacity:0;}30%{opacity:.4;}70%{opacity:.4;}100%{opacity:0;}}
+.scroll-cue-line{width:1px;height:48px;background:linear-gradient(to bottom,transparent,var(--green),transparent);animation:scrollLine 1.8s ease-in-out infinite;}
+@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform:scaleY(1);transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+.scroll-cue-text{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:600;}
+
+/* RESPONSIVE HERO */
+@media(max-width:1024px){
+  .hero-content{grid-template-columns:1fr;gap:48px;}
+  .hero-right{grid-template-columns:repeat(4,1fr);}
+  .hero-body{padding:60px 24px 48px;}
+}
+@media(max-width:768px){
+  .hero-right{grid-template-columns:1fr 1fr;}
+  .hero h1{font-size:38px;}
+  .hero-sub{font-size:15px;}
+  .ticker-bar{display:none;}
+}
+
 
 /* PATH SELECTOR */
 #path-selector{padding:80px 28px;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
@@ -391,42 +490,87 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:64px
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg"></div>
+  <canvas id="hero-canvas"></canvas>
+  <div class="aurora">
+    <div class="aurora-blob"></div>
+    <div class="aurora-blob"></div>
+    <div class="aurora-blob"></div>
+  </div>
   <div class="hero-grid-bg"></div>
-  <div class="hero-content">
-    <div class="hero-left">
-      <div class="hero-badge">🇺🇸 Built for every American taxpayer</div>
-      <h1>Taxes made <em>actually simple.</em></h1>
-      <p class="lead">Free calculators, smart guides, and instant answers for your personal taxes, startup finances, and corporate obligations — no jargon, no paywalls, no BS.</p>
-      <div class="hero-actions">
-        <a href="#path-selector" class="btn btn-primary">Start for Free →</a>
-        <a href="#article-section" class="btn btn-outline">Read the Guide</a>
-      </div>
-      <div class="trust-pills">
-        <div class="trust-pill"><span>✓</span> 100% Free Forever</div>
-        <div class="trust-pill"><span>✓</span> Zero Data Collected</div>
-        <div class="trust-pill"><span>✓</span> No Products Sold</div>
-        <div class="trust-pill"><span>✓</span> No Ads or Tracking</div>
-      </div>
+
+  <!-- LIVE TICKER BAR -->
+  <div class="ticker-bar">
+    <div class="ticker-inner" id="ticker-inner">
+      <!-- populated by JS, duplicated for seamless loop -->
     </div>
-    <div class="hero-right">
-      <div class="hcard">
-        <div class="hcard-val">$15K+</div>
-        <div class="hcard-label">Average deductions people miss each year</div>
+  </div>
+
+  <!-- MAIN HERO BODY -->
+  <div class="hero-body">
+    <div class="hero-content">
+
+      <!-- LEFT -->
+      <div class="hero-left">
+        <div class="hero-eyebrow">
+          <div class="hero-eyebrow-dot"></div>
+          🇺🇸 Built for every American taxpayer
+        </div>
+
+        <h1>
+          <span class="line-static">Your taxes,</span>
+          <span class="line-type" id="typewriter-line"><span class="cursor-blink"></span></span>
+        </h1>
+
+        <p class="hero-sub">Free calculators, guides, and instant answers for personal taxes, startups, and corporations. No jargon, no paywalls, no data collected — ever.</p>
+
+        <div class="hero-ctas">
+          <a href="#path-selector" class="btn-hero-primary">
+            Get Started Free <span class="btn-arrow">→</span>
+          </a>
+          <a href="#article-section" class="btn-hero-ghost">
+            📚 Read the Guide
+          </a>
+        </div>
+
+        <div class="trust-strip">
+          <div class="trust-chip"><span class="trust-chip-icon">🔒</span> Zero data collected</div>
+          <div class="trust-chip"><span class="trust-chip-icon">🚫</span> No ads ever</div>
+          <div class="trust-chip"><span class="trust-chip-icon">✅</span> 100% free forever</div>
+          <div class="trust-chip"><span class="trust-chip-icon">🏛️</span> IRS-sourced data</div>
+        </div>
       </div>
-      <div class="hcard">
-        <div class="hcard-val">2025</div>
-        <div class="hcard-label">All data current for the 2025 tax year</div>
+
+      <!-- RIGHT — STAT CARDS -->
+      <div class="hero-right">
+        <div class="hcard">
+          <span class="hcard-icon">💸</span>
+          <div class="hcard-val" data-count="15000" data-prefix="$" data-suffix="K+">$0</div>
+          <div class="hcard-label">Average deductions Americans miss every year</div>
+        </div>
+        <div class="hcard">
+          <span class="hcard-icon">📅</span>
+          <div class="hcard-val">2025</div>
+          <div class="hcard-label">All data current for the 2025 tax year</div>
+        </div>
+        <div class="hcard">
+          <span class="hcard-icon">📊</span>
+          <div class="hcard-val" data-count="7">0</div>
+          <div class="hcard-label">Federal income tax brackets to navigate</div>
+        </div>
+        <div class="hcard">
+          <span class="hcard-icon">⚡</span>
+          <div class="hcard-val" data-count="37" data-suffix="%">0%</div>
+          <div class="hcard-label">Top marginal rate — most people pay far less</div>
+        </div>
       </div>
-      <div class="hcard">
-        <div class="hcard-val">7</div>
-        <div class="hcard-label">Federal income tax brackets to navigate</div>
-      </div>
-      <div class="hcard">
-        <div class="hcard-val">37%</div>
-        <div class="hcard-label">Top marginal rate — most people pay far less</div>
-      </div>
+
     </div>
+  </div>
+
+  <!-- SCROLL CUE -->
+  <div class="scroll-cue">
+    <div class="scroll-cue-line"></div>
+    <div class="scroll-cue-text">Scroll</div>
   </div>
 </section>
 
@@ -2114,7 +2258,188 @@ function setupReveal(){
   els.forEach(el=>{el.style.opacity='0';el.style.transform='translateY(20px)';el.style.transition='opacity .5s,transform .5s';obs.observe(el);});
 }
 
-// ===================== INIT =====================
+// ═══════════════════════════════════════════════════
+// HERO ANIMATIONS
+// ═══════════════════════════════════════════════════
+
+// ── PARTICLE CANVAS ──
+(function(){
+  const canvas = document.getElementById('hero-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const TAX_STRINGS = [
+    '$15,000','37%','$23,500','10%','W-2','1099','IRS',
+    '$7,000','22%','401k','Roth','LLC','S-Corp','QBI',
+    '$0.70','FICA','15.3%','21%','SALT','SEP-IRA','HSA',
+    'CPA','EA','AGI','AMT','EV','12%','24%','32%','35%',
+    '$176K','$30K','Schedule C','Form 1040'
+  ];
+
+  let W, H, particles = [];
+
+  function resize(){
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function rand(a,b){ return a + Math.random()*(b-a); }
+
+  function spawnParticle(){
+    return {
+      x: rand(0, W),
+      y: rand(H, H*1.2),
+      vy: rand(0.25, 0.7),
+      vx: rand(-0.15, 0.15),
+      alpha: 0,
+      fadeIn: true,
+      text: TAX_STRINGS[Math.floor(Math.random()*TAX_STRINGS.length)],
+      size: rand(10, 15),
+      life: 0,
+      maxLife: rand(180, 320),
+      color: Math.random() > .75 ? '#F0AC45' : Math.random() > .5 ? '#7C9FFF' : '#00D4A0'
+    };
+  }
+
+  for(let i=0;i<38;i++){
+    const p = spawnParticle();
+    p.y = rand(0, H);
+    p.life = rand(0, p.maxLife);
+    particles.push(p);
+  }
+
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach((p,i)=>{
+      p.life++;
+      p.y -= p.vy;
+      p.x += p.vx;
+      const progress = p.life / p.maxLife;
+      if(progress < .15)      p.alpha = progress / .15 * 0.55;
+      else if(progress > .75) p.alpha = (1 - (progress-.75)/.25) * 0.55;
+      else                    p.alpha = 0.55;
+      ctx.save();
+      ctx.font = `600 ${p.size}px 'Space Mono', monospace`;
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.alpha * .45;
+      ctx.fillText(p.text, p.x, p.y);
+      ctx.restore();
+      if(p.life >= p.maxLife || p.y < -30 || p.x < -80 || p.x > W+80){
+        particles[i] = spawnParticle();
+      }
+    });
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// ── TICKER BAR ──
+(function(){
+  const items = [
+    {label:'Federal Income Tax',val:'10 – 37%',cls:''},
+    {label:'Corporate Tax Rate',val:'21% Flat',cls:''},
+    {label:'Self-Employment Tax',val:'15.3%',cls:'red'},
+    {label:'Long-Term Cap Gains',val:'0 – 20%',cls:''},
+    {label:'Standard Deduction (Single)',val:'$15,000',cls:''},
+    {label:'Standard Deduction (MFJ)',val:'$30,000',cls:''},
+    {label:'401(k) Limit 2025',val:'$23,500',cls:''},
+    {label:'IRA Limit 2025',val:'$7,000',cls:''},
+    {label:'Mileage Rate 2025',val:'$0.70/mi',cls:'gold'},
+    {label:'SS Wage Cap',val:'$176,100',cls:''},
+    {label:'HSA Limit (Single)',val:'$4,300',cls:''},
+    {label:'SEP-IRA Max',val:'$69,000',cls:'gold'},
+    {label:'QBI Deduction',val:'Up to 20%',cls:''},
+    {label:'Bonus Depreciation',val:'40% (2025)',cls:'red'},
+    {label:'Section 179 Limit',val:'$1.16M',cls:'gold'},
+    {label:'EITC Max',val:'$8,046',cls:''},
+    {label:'Child Tax Credit',val:'$2,000/child',cls:''},
+  ];
+
+  const ticker = document.getElementById('ticker-inner');
+  if(!ticker) return;
+
+  const buildItems = () => items.map(it =>
+    `<span class="ticker-item"><span class="t-label">${it.label}</span><span class="t-val ${it.cls}">${it.val}</span></span>`
+  ).join('');
+
+  // Double it for seamless loop
+  ticker.innerHTML = buildItems() + buildItems();
+})();
+
+// ── TYPEWRITER EFFECT ──
+(function(){
+  const el = document.getElementById('typewriter-line');
+  if(!el) return;
+  const phrases = [
+    'finally under control.',
+    'actually simple.',
+    'no longer a mystery.',
+    'handled in minutes.',
+    'working for you.',
+  ];
+  let pi = 0, ci = 0, deleting = false;
+  const cursor = '<span class="cursor-blink"></span>';
+
+  function type(){
+    const phrase = phrases[pi];
+    if(!deleting){
+      ci++;
+      el.innerHTML = phrase.slice(0,ci) + cursor;
+      if(ci === phrase.length){
+        deleting = true;
+        setTimeout(type, 2200);
+        return;
+      }
+      setTimeout(type, 65);
+    } else {
+      ci--;
+      el.innerHTML = phrase.slice(0,ci) + cursor;
+      if(ci === 0){
+        deleting = false;
+        pi = (pi+1) % phrases.length;
+        setTimeout(type, 400);
+        return;
+      }
+      setTimeout(type, 35);
+    }
+  }
+  setTimeout(type, 900);
+})();
+
+// ── COUNT-UP STATS ──
+(function(){
+  const cards = document.querySelectorAll('.hcard-val[data-count]');
+  if(!cards.length) return;
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(!entry.isIntersecting) return;
+      observer.unobserve(entry.target);
+      const el    = entry.target;
+      const end   = parseInt(el.dataset.count);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const dur   = 1400;
+      const step  = 16;
+      const steps = dur / step;
+      let cur = 0;
+      const inc = end / steps;
+      const t = setInterval(()=>{
+        cur = Math.min(cur + inc, end);
+        const display = end >= 1000
+          ? Math.round(cur/1000).toLocaleString()+'K+'
+          : Math.round(cur);
+        el.textContent = prefix + display + suffix;
+        if(cur >= end) clearInterval(t);
+      }, step);
+    });
+  }, {threshold: 0.5});
+
+  cards.forEach(c => observer.observe(c));
+})();
+
+// ═══════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded',()=>{
   buildFAQ();
   loadNews();
